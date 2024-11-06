@@ -1,0 +1,176 @@
+/* Основные стили */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Заголовки */
+h1, h2, h3 {
+    color: #333333;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Стили для ссылок */
+.header a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.header a:hover {
+    background-color: #e8f5e9;
+}
+
+/* Стили для форм */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+input[type="text"],
+input[type="password"],
+textarea,
+input[type="submit"],
+button {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Основные кнопки */
+input[type="submit"],
+button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+input[type="submit"]:hover,
+button:hover {
+    background-color: #45a049;
+}
+
+/* Сообщения об ошибках и успехе */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li.success {
+    color: #4CAF50;
+}
+
+li.danger {
+    color: #ff4444;
+}
+
+/* Кнопки в админской панели */
+.button-group {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+/* Стили для всех кнопок в админке */
+.button-group button,
+.button-group .button-edit,
+.button-group .button-delete,
+.button-group .button-toggle {
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    border: none;
+    width: 80px; /* Фиксированная ширина для выравнивания */
+    box-sizing: border-box;
+}
+
+/* Индивидуальные стили кнопок */
+.button-edit {
+    background-color: #ffeb3b;
+    color: #333333;
+}
+
+.button-delete {
+    background-color: #f44336;
+    color: #ffffff;
+}
+
+.button-toggle {
+    background-color: #4CAF50;
+    color: #ffffff;
+}
+
+/* Hover эффекты */
+.button-edit:hover {
+    background-color: #fdd835;
+}
+
+.button-delete:hover {
+    background-color: #e53935;
+}
+
+.button-toggle:hover {
+    background-color: #43a047;
+}
+
+/* Стили для сообщений */
+.message {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fafafa;
+}
+
+.message strong {
+    font-weight: bold;
+}
+
+/* Стили для ссылки на редактирование и отмену */
+a.button-edit,
+a.button-cancel {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+a.button-cancel {
+    background-color: #bbb;
+}
+
+a.button-cancel:hover {
+    background-color: #999;
+}

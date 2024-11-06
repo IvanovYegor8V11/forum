@@ -1,12 +1,11 @@
-<!-- templates/admin.html -->
 {% extends "base.html" %}
 {% block content %}
   <h2>Admin Panel</h2>
 
-  <!-- Верхняя панель с именем пользователя и кнопкой Logout -->
   <div class="header">
     <p>Logged in as: <strong>{{ session.get('username') }}</strong></p>
     <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+    <a href="{{ url_for('chat') }}">Back to Chat</a>
   </div>
 
   <h3>Messages</h3>
@@ -15,7 +14,6 @@
       <strong>{{ message.user.username }}:</strong> 
       
       {% if message.id == (request.args.get('edit_id') | int) %}
-        <!-- Форма редактирования сообщения -->
         <form method="POST" action="{{ url_for('admin') }}">
           <input type="hidden" name="message_id" value="{{ message.id }}">
           <textarea name="new_content">{{ message.content }}</textarea>
@@ -26,17 +24,17 @@
         {{ message.content }} 
         <br><small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }} - 
         <em>{{ 'Visible' if message.visible else 'Hidden' }}</em></small>
-        <form method="POST" style="display: inline;">
-          <input type="hidden" name="message_id" value="{{ message.id }}">
-          <button type="submit" name="action" value="toggle_visibility">
-            {{ 'Hide' if message.visible else 'Show' }}
-          </button>
-          <a href="{{ url_for('admin', edit_id=message.id) }}">Edit</a>
-          <button type="submit" name="action" value="delete">Delete</button>
-        </form>
+        <div class="button-group">
+          <form method="POST" style="display: inline;">
+            <input type="hidden" name="message_id" value="{{ message.id }}">
+            <button type="submit" name="action" value="toggle_visibility" class="button-toggle">
+              {{ 'Hide' if message.visible else 'Show' }}
+            </button>
+            <a href="{{ url_for('admin', edit_id=message.id) }}" class="button-edit">Edit</a>
+            <button type="submit" name="action" value="delete" class="button-delete">Delete</button>
+          </form>
+        </div>
       {% endif %}
     </div>
-  {% endfor %}
-
-  <a href="{{ url_for('chat') }}">Back to Chat</a>
+  {% endfor %}  
 {% endblock %}

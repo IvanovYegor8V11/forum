@@ -10,20 +10,36 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+@app.template_filter('nl2br')
+def nl2br_filter(text):
+    return text.replace('\n', '<br>')
+
 @app.route('/')
 def index():
-    return redirect(url_for('login'))
+    return redirect(url_for('chat'))
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
+        if form.username.data.lower() == 'admin':
+            flash('Username "admin" is reserved. Please choose a different username.', 'danger')
+            return redirect(url_for('register'))
+        
+        existing_user = User.query.filter_by(username=form.username.data).first()
+        if existing_user:
+            flash('Username already taken. Please choose a different one.', 'danger')
+            return redirect(url_for('register'))
+        
         user = User(username=form.username.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
+        
         flash('You have successfully registered!', 'success')
         return redirect(url_for('login'))
+    
     return render_template('register.html', form=form)
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -46,33 +62,70 @@ def login():
 
 @app.route('/chat', methods=['GET', 'POST'])
 def chat():
-    if 'user_id' not in session:
-        flash('Please log in to access the chat.', 'warning')
-        return redirect(url_for('login'))
+    user_logged_in = 'user_id' in session
     
-    if request.method == 'POST' and 'content' in request.form:
+    if request.method == 'POST' and user_logged_in and 'content' in request.form:
         content = request.form['content']
+        
+        if not content.strip():
+            error_message = "Message cannot be empty."
+            
+            messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).all()
+            return render_template('chat.html', error_message=error_message, messages=messages, user_logged_in=user_logged_in)
+
         message = Message(content=content, user_id=session['user_id'])
         db.session.add(message)
         db.session.commit()
     
     search_query = request.args.get('search')
+    
     if search_query:
+        search_terms = search_query.split()
+        
+        filters = [Message.content.ilike(f'%{term}%') for term in search_terms]
+    
         messages = Message.query.filter(
-            Message.content.ilike(f'%{search_query}%'),
-            Message.visible.is_(True)
+            Message.visible.is_(True),
+            *filters
         ).order_by(Message.id.desc()).all()
     else:
         messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).all()
     
-    return render_template('chat.html', messages=messages, search_query=search_query)
+    return render_template(
+        'chat.html',
+        messages=messages,
+        search_query=search_query,
+        user_logged_in=user_logged_in,
+        error_message=None
+    )
+
+@app.route('/admin-login', methods=['GET', 'POST'])
+def admin_login():
+    if session.get('is_admin'):
+        return redirect(url_for('admin'))
+
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        
+        if username == 'admin' and password == 'admin':
+            session['user_id'] = 1
+            session['username'] = username
+            session['is_admin'] = True
+            return redirect(url_for('admin'))
+        else:
+            flash('Invalid admin username or password.', 'danger')
+            return render_template('admin_login.html')
+
+    return render_template('admin_login.html')
+
 
 @app.route('/admin', methods=['GET', 'POST'])
 def admin():
     if not session.get('is_admin'):
         flash('Access denied.', 'danger')
         return redirect(url_for('login'))
-    
+
     if request.method == 'POST':
         message_id = request.form.get('message_id')
         action = request.form.get('action')
@@ -97,6 +150,7 @@ def admin():
     
     messages = Message.query.order_by(Message.id.desc()).all()
     return render_template('admin.html', messages=messages)
+
 
 
 @app.route('/logout')

@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>Flask Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -14,6 +15,8 @@
       {% endif %}
     {% endwith %}
     
-    {% block content %}{% endblock %}
+    <div class="container">
+      {% block content %}{% endblock %}
+    </div>
 </body>
 </html>
