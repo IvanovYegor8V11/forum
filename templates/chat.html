@@ -1,11 +1,12 @@
 {% extends "base.html" %}
+
 {% block content %}
   <div class="header">
     {% if user_logged_in %}
       <p>Logged in as: <strong>{{ session.get('username') }}</strong></p>
       <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
       {% if session.get('is_admin') %}
-        <a href="{{ url_for('admin') }}" class="admin-button">Go to Admin Panel</a>
+        <a href="{{ url_for('admin_messages') }}" class="admin-button">Go to Admin Panel</a>
       {% endif %}
     {% else %}
       <a href="{{ url_for('login') }}">Login</a> |
@@ -39,14 +40,27 @@
   <div class="messages">
     {% if messages %}
       {% for message in messages %}
-        <p>
-          <strong>{{ message.user.username }}:</strong>
-          <span class="message-content">{{ message.content | nl2br | safe }}</span>
-          <br><small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
-        </p>
+        <div class="message">
+          <div class="message-user">
+            <strong>{{ message.user.username }}</strong>
+          </div>
+          <div class="message-content">
+            {{ message.content }}
+          </div>
+          <div class="message-timestamp">
+            <small>{{ message.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small>
+          </div>
+        </div>
       {% endfor %}
     {% else %}
       <p>No messages found.</p>
     {% endif %}
   </div>
+
+  <!-- Кнопка "Показать все сообщения" -->
+  {% if not show_all %}
+    <div class="show-all-button">
+      <a href="{{ url_for('chat', show_all=True) }}" class="btn">Show All Messages</a>
+    </div>
+  {% endif %}
 {% endblock %}

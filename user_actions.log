@@ -1,97 +1,179 @@
-2024-12-10 16:58:53 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
- * Running on http://127.0.0.1:5000
-2024-12-10 16:58:53 - [33mPress CTRL+C to quit[0m
-2024-12-10 16:58:53 -  * Restarting with stat
-2024-12-10 16:58:53 -  * Debugger is active!
-2024-12-10 16:58:53 -  * Debugger PIN: 195-337-451
-2024-12-10 16:59:14 - User: anonymous, Action: Visited the chat page
-2024-12-10 16:59:14 - 127.0.0.1 - - [10/Dec/2024 16:59:14] "[32mGET / HTTP/1.1[0m" 302 -
-2024-12-10 16:59:15 - User: anonymous, Action: Viewed the chat
-2024-12-10 16:59:15 - 127.0.0.1 - - [10/Dec/2024 16:59:15] "GET /chat HTTP/1.1" 200 -
-2024-12-10 16:59:15 - 127.0.0.1 - - [10/Dec/2024 16:59:15] "GET /static/style.css HTTP/1.1" 200 -
-2024-12-10 16:59:15 - 127.0.0.1 - - [10/Dec/2024 16:59:15] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
-2024-12-10 16:59:57 - 127.0.0.1 - - [10/Dec/2024 16:59:57] "GET /login HTTP/1.1" 200 -
-2024-12-10 16:59:57 - 127.0.0.1 - - [10/Dec/2024 16:59:57] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:00:03 - User: egi2, Action: Logged in
-2024-12-10 17:00:03 - 127.0.0.1 - - [10/Dec/2024 17:00:03] "[32mPOST /login HTTP/1.1[0m" 302 -
-2024-12-10 17:00:03 - User: egi2, Action: Viewed the chat
-2024-12-10 17:00:03 - 127.0.0.1 - - [10/Dec/2024 17:00:03] "GET /chat HTTP/1.1" 200 -
-2024-12-10 17:00:03 - 127.0.0.1 - - [10/Dec/2024 17:00:03] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:00:44 - User: egi2, Action: Sent a message
-2024-12-10 17:00:44 - User: egi2, Action: Viewed the chat
-2024-12-10 17:00:44 - 127.0.0.1 - - [10/Dec/2024 17:00:44] "POST /chat HTTP/1.1" 200 -
-2024-12-10 17:00:44 - 127.0.0.1 - - [10/Dec/2024 17:00:44] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:01:46 - User: egi2, Action: Viewed the chat
-2024-12-10 17:01:46 - 127.0.0.1 - - [10/Dec/2024 17:01:46] "GET /chat?search=new HTTP/1.1" 200 -
-2024-12-10 17:01:46 - 127.0.0.1 - - [10/Dec/2024 17:01:46] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:02:11 - User: egi2, Action: Viewed the chat
-2024-12-10 17:02:11 - 127.0.0.1 - - [10/Dec/2024 17:02:11] "GET /chat?search= HTTP/1.1" 200 -
-2024-12-10 17:02:11 - 127.0.0.1 - - [10/Dec/2024 17:02:11] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:03:22 - User: egi2, Action: Logged out
-2024-12-10 17:03:22 - 127.0.0.1 - - [10/Dec/2024 17:03:22] "[32mGET /logout HTTP/1.1[0m" 302 -
-2024-12-10 17:03:22 - 127.0.0.1 - - [10/Dec/2024 17:03:22] "GET /login HTTP/1.1" 200 -
-2024-12-10 17:03:22 - 127.0.0.1 - - [10/Dec/2024 17:03:22] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:03:29 - 127.0.0.1 - - [10/Dec/2024 17:03:29] "GET /register HTTP/1.1" 200 -
-2024-12-10 17:03:29 - 127.0.0.1 - - [10/Dec/2024 17:03:29] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:03:48 - User: egi2, Action: Registered a new account
-2024-12-10 17:03:48 - 127.0.0.1 - - [10/Dec/2024 17:03:48] "[32mPOST /register HTTP/1.1[0m" 302 -
-2024-12-10 17:03:48 - 127.0.0.1 - - [10/Dec/2024 17:03:48] "GET /login HTTP/1.1" 200 -
-2024-12-10 17:03:48 - 127.0.0.1 - - [10/Dec/2024 17:03:48] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:04:10 - User: new_user, Action: Logged in
-2024-12-10 17:04:10 - 127.0.0.1 - - [10/Dec/2024 17:04:10] "[32mPOST /login HTTP/1.1[0m" 302 -
-2024-12-10 17:04:10 - User: new_user, Action: Viewed the chat
-2024-12-10 17:04:10 - 127.0.0.1 - - [10/Dec/2024 17:04:10] "GET /chat HTTP/1.1" 200 -
-2024-12-10 17:04:10 - 127.0.0.1 - - [10/Dec/2024 17:04:10] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:04:40 - User: new_user, Action: Sent a message
-2024-12-10 17:04:40 - User: new_user, Action: Viewed the chat
-2024-12-10 17:04:40 - 127.0.0.1 - - [10/Dec/2024 17:04:40] "POST /chat HTTP/1.1" 200 -
-2024-12-10 17:04:40 - 127.0.0.1 - - [10/Dec/2024 17:04:40] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:04:44 - User: new_user, Action: Viewed the chat
-2024-12-10 17:04:44 - 127.0.0.1 - - [10/Dec/2024 17:04:44] "GET /chat?search=укенглдж HTTP/1.1" 200 -
-2024-12-10 17:04:44 - 127.0.0.1 - - [10/Dec/2024 17:04:44] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:04:46 - User: new_user, Action: Viewed the chat
-2024-12-10 17:04:46 - 127.0.0.1 - - [10/Dec/2024 17:04:46] "GET /chat?search= HTTP/1.1" 200 -
-2024-12-10 17:04:46 - 127.0.0.1 - - [10/Dec/2024 17:04:46] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
-2024-12-10 17:09:48 - User: new_user, Action: Viewed the chat
-2024-12-10 17:09:54 - User: new_user, Action: Logged out
-2024-12-10 17:10:18 - User: egi2, Action: Logged in
-2024-12-10 17:10:18 - User: egi2, Action: Viewed the chat
-2024-12-10 17:10:32 - User: egi2, Action: Logged out
-2024-12-10 17:11:06 - User: egi2, Action: Registered a new account
-2024-12-10 17:11:17 - User: plus_user, Action: Logged in
-2024-12-10 17:11:17 - User: plus_user, Action: Viewed the chat
-2024-12-10 17:16:02 - User: plus_user, Action: Visited the chat page
-2024-12-10 17:16:02 - User: plus_user, Action: Viewed the chat
-2024-12-10 17:16:14 - User: plus_user, Action: Viewed the chat
-2024-12-10 17:16:21 - User: plus_user, Action: Viewed the chat
-2024-12-10 17:16:29 - User: plus_user, Action: Logged out
-2024-12-10 17:17:24 - User: admin, Action: Viewed the chat
-2024-12-10 17:17:56 - User: admin, Action: Viewed the chat
-2024-12-10 17:18:01 - User: admin, Action: Logged out
-2024-12-10 17:19:24 - User: admin, Action: Visited the chat page
-2024-12-10 17:19:24 - User: admin, Action: Viewed the chat
-2024-12-10 17:22:34 - User: admin, Action: Visited the chat page
-2024-12-10 17:22:34 - User: admin, Action: Viewed the chat
-2024-12-10 17:22:50 - User: egi2, Action: Logged in
-2024-12-10 17:22:50 - User: egi2, Action: Viewed the chat
-2024-12-10 17:22:55 - User: egi2, Action: Logged out
-2024-12-10 17:23:00 - User: anonymous, Action: Visited the chat page
-2024-12-10 17:23:00 - User: anonymous, Action: Viewed the chat
-2024-12-10 17:23:27 - User: anonymous, Action: Registered a new account
-2024-12-10 17:23:36 - User: test_user, Action: Logged in
-2024-12-10 17:23:36 - User: test_user, Action: Viewed the chat
-2024-12-10 17:25:00 - User: test_user, Action: Logged out
-2024-12-10 17:25:03 - User: anonymous, Action: Visited the chat page
-2024-12-10 17:25:03 - User: anonymous, Action: Viewed the chat
-2024-12-10 17:25:11 - User: anonymous, Action: Visited the chat page
-2024-12-10 17:25:11 - User: anonymous, Action: Viewed the chat
-2024-12-10 17:25:29 - User: anonymous, Action: Visited the chat page
-2024-12-10 17:25:29 - User: anonymous, Action: Viewed the chat
-2024-12-10 17:26:19 - User: anonymous, Action: Registered a new account: register_log_test
-2024-12-10 17:27:46 - User: anonymous, Action: Visited the chat page
-2024-12-10 17:27:46 - User: anonymous, Action: Viewed the chat
-2024-12-10 17:28:38 - User: anonymous, Action: Registered a new account: not_enough_users
-2024-12-10 17:28:38 - User: not_enough_users, Action: Viewed the chat
-2024-12-10 17:28:56 - User: not_enough_users, Action: Sent a message
-2024-12-10 17:28:56 - User: not_enough_users, Action: Viewed the chat
-2024-12-10 17:35:00 - User: not_enough_users, Action: Logged out
+2024-12-10 20:52:08 - User: anonymous, Action: Visited the chat page
+2024-12-10 20:52:08 - User: anonymous, Action: Viewed the chat
+2024-12-10 20:52:45 - User: another, Action: Logged in
+2024-12-10 20:52:45 - User: another, Action: Viewed the chat
+2024-12-10 20:53:49 - User: another, Action: Logged out
+2024-12-10 20:58:12 - User: anonymous, Action: Visited the chat page
+2024-12-10 20:58:12 - User: anonymous, Action: Viewed the chat
+2024-12-10 21:01:04 - User: anonymous, Action: Visited the chat page
+2024-12-10 21:01:04 - User: anonymous, Action: Viewed the chat
+2024-12-10 21:38:13 - User: another, Action: Logged in
+2024-12-10 21:38:13 - User: another, Action: Viewed the chat
+2024-12-10 21:38:22 - User: another, Action: Sent a message
+2024-12-10 21:38:22 - User: another, Action: Viewed the chat
+2024-12-10 21:38:31 - User: another, Action: Logged out
+2024-12-10 21:38:34 - User: anonymous, Action: Visited the chat page
+2024-12-10 21:38:34 - User: anonymous, Action: Viewed the chat
+2024-12-10 21:47:04 - User: anonymous, Action: Visited the chat page
+2024-12-10 21:47:04 - User: anonymous, Action: Viewed the chat
+2024-12-10 21:54:15 - User: another, Action: Logged in
+2024-12-10 21:54:15 - User: another, Action: Viewed the chat
+2024-12-10 21:54:27 - User: another, Action: Sent a message
+2024-12-10 21:54:27 - User: another, Action: Viewed the chat
+2024-12-10 21:54:28 - User: another, Action: Logged out
+2024-12-10 22:04:49 - User: egi2, Action: Logged in
+2024-12-10 22:04:49 - User: egi2, Action: Viewed the chat
+2024-12-10 22:04:52 - User: egi2, Action: Sent a message
+2024-12-10 22:04:52 - User: egi2, Action: Viewed the chat
+2024-12-10 22:05:02 - User: egi2, Action: Logged out
+2024-12-11 00:23:02 - User: anonymous, Action: Visited the chat page
+2024-12-11 00:23:02 - User: anonymous, Action: Viewed the chat
+2024-12-11 19:41:10 - User: anonymous, Action: Visited the chat page
+2024-12-11 19:41:10 - User: anonymous, Action: Viewed the chat
+2024-12-11 19:50:49 - User: anonymous, Action: Visited the chat page
+2024-12-11 19:50:49 - User: anonymous, Action: Viewed the chat
+2024-12-12 00:13:32 - User: anonymous, Action: Visited the chat page
+2024-12-12 00:13:32 - User: anonymous, Action: Viewed the chat
+2024-12-12 00:13:48 - User: egi2, Action: Logged in
+2024-12-12 00:13:48 - User: egi2, Action: Viewed the chat
+2024-12-12 00:14:36 - User: egi2, Action: Sent a message
+2024-12-12 00:14:36 - User: egi2, Action: Viewed the chat
+2024-12-12 00:14:42 - User: egi2, Action: Logged out
+2024-12-12 00:17:41 - User: anonymous, Action: Visited the chat page
+2024-12-12 00:17:41 - User: anonymous, Action: Viewed the chat
+2024-12-12 00:18:00 - User: egi2, Action: Logged in
+2024-12-12 00:18:00 - User: egi2, Action: Viewed the chat
+2024-12-12 00:18:05 - User: egi2, Action: Visited the chat page
+2024-12-12 00:18:05 - User: egi2, Action: Viewed the chat
+2024-12-12 00:18:15 - User: egi2, Action: Logged out
+2024-12-12 00:22:03 - User: anonymous, Action: Visited the chat page
+2024-12-12 00:22:03 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:31:57 - User: anonymous, Action: Visited the chat page
+2024-12-12 15:31:57 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:32:35 - User: egi2, Action: Logged in
+2024-12-12 15:32:35 - User: egi2, Action: Viewed the chat
+2024-12-12 15:37:16 - User: egi2, Action: Visited the chat page
+2024-12-12 15:37:16 - User: egi2, Action: Viewed the chat
+2024-12-12 15:38:47 - User: egi2, Action: Visited the chat page
+2024-12-12 15:38:47 - User: egi2, Action: Viewed the chat
+2024-12-12 15:39:03 - User: egi2, Action: Sent a message
+2024-12-12 15:39:03 - User: egi2, Action: Viewed the chat
+2024-12-12 15:40:27 - User: egi2, Action: Visited the chat page
+2024-12-12 15:40:27 - User: egi2, Action: Viewed the chat
+2024-12-12 15:40:52 - User: egi2, Action: Sent a message
+2024-12-12 15:40:52 - User: egi2, Action: Viewed the chat
+2024-12-12 15:41:08 - User: egi2, Action: Sent a message
+2024-12-12 15:41:08 - User: egi2, Action: Viewed the chat
+2024-12-12 15:41:27 - User: egi2, Action: Sent a message
+2024-12-12 15:41:27 - User: egi2, Action: Viewed the chat
+2024-12-12 15:42:40 - User: egi2, Action: Visited the chat page
+2024-12-12 15:42:40 - User: egi2, Action: Viewed the chat
+2024-12-12 15:45:13 - User: egi2, Action: Viewed the chat
+2024-12-12 15:46:19 - User: egi2, Action: Viewed the chat
+2024-12-12 15:46:22 - User: egi2, Action: Viewed the chat
+2024-12-12 15:46:32 - User: egi2, Action: Viewed the chat
+2024-12-12 15:47:35 - User: egi2, Action: Logged out
+2024-12-12 15:48:52 - User: anonymous, Action: Visited the chat page
+2024-12-12 15:48:52 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:48:55 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:48:57 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:50:42 - User: anonymous, Action: Visited the chat page
+2024-12-12 15:50:42 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:51:12 - User: anonymous, Action: Visited the chat page
+2024-12-12 15:51:12 - User: anonymous, Action: Viewed the chat
+2024-12-12 15:51:29 - User: anonymous, Action: Registered a new account: egi2
+2024-12-12 15:51:29 - User: egi2, Action: Viewed the chat
+2024-12-12 15:51:50 - User: egi2, Action: Sent a message
+2024-12-12 15:51:50 - User: egi2, Action: Viewed the chat
+2024-12-12 15:52:22 - User: egi2, Action: Logged out
+2024-12-12 15:53:23 - User: egi2, Action: Logged in
+2024-12-12 15:53:23 - User: egi2, Action: Viewed the chat
+2024-12-12 15:53:34 - User: egi2, Action: Sent a message
+2024-12-12 15:53:34 - User: egi2, Action: Viewed the chat
+2024-12-12 15:53:37 - User: egi2, Action: Logged out
+2024-12-12 15:59:07 - User: egi2, Action: Logged in
+2024-12-12 15:59:07 - User: egi2, Action: Viewed the chat
+2024-12-12 15:59:16 - User: egi2, Action: Sent a message
+2024-12-12 15:59:16 - User: egi2, Action: Viewed the chat
+2024-12-12 16:02:29 - User: egi2, Action: Visited the chat page
+2024-12-12 16:02:29 - User: egi2, Action: Viewed the chat
+2024-12-12 16:02:51 - User: egi2, Action: Visited the chat page
+2024-12-12 16:02:51 - User: egi2, Action: Viewed the chat
+2024-12-12 16:04:24 - User: egi2, Action: Visited the chat page
+2024-12-12 16:04:24 - User: egi2, Action: Viewed the chat
+2024-12-12 16:04:44 - User: egi2, Action: Visited the chat page
+2024-12-12 16:04:44 - User: egi2, Action: Viewed the chat
+2024-12-12 16:05:53 - User: egi2, Action: Viewed the chat
+2024-12-12 16:06:00 - User: egi2, Action: Viewed the chat
+2024-12-12 16:07:40 - User: egi2, Action: Viewed the chat
+2024-12-12 16:08:01 - User: egi2, Action: Viewed the chat
+2024-12-12 16:08:50 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:12 - User: egi2, Action: Visited the chat page
+2024-12-12 16:09:12 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:32 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:42 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:43 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:43 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:43 - User: egi2, Action: Viewed the chat
+2024-12-12 16:09:53 - User: egi2, Action: Viewed the chat
+2024-12-12 16:10:34 - User: egi2, Action: Viewed the chat
+2024-12-12 16:10:55 - User: egi2, Action: Viewed the chat
+2024-12-12 16:10:57 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:06 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:07 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:08 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:08 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:19 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:42 - User: egi2, Action: Viewed the chat
+2024-12-12 16:11:57 - User: egi2, Action: Viewed the chat
+2024-12-12 16:13:58 - User: egi2, Action: Sent a message
+2024-12-12 16:13:58 - User: egi2, Action: Viewed the chat
+2024-12-12 16:14:10 - User: egi2, Action: Sent a message
+2024-12-12 16:14:10 - User: egi2, Action: Viewed the chat
+2024-12-12 16:14:44 - User: egi2, Action: Sent a message
+2024-12-12 16:14:44 - User: egi2, Action: Viewed the chat
+2024-12-12 16:15:12 - User: egi2, Action: Sent a message
+2024-12-12 16:15:12 - User: egi2, Action: Viewed the chat
+2024-12-12 16:15:39 - User: egi2, Action: Sent a message
+2024-12-12 16:15:39 - User: egi2, Action: Viewed the chat
+2024-12-12 16:17:58 - User: egi2, Action: Visited the chat page
+2024-12-12 16:17:58 - User: egi2, Action: Viewed the chat
+2024-12-12 16:18:13 - User: egi2, Action: Sent a message
+2024-12-12 16:18:13 - User: egi2, Action: Viewed the chat
+2024-12-12 16:18:35 - User: egi2, Action: Visited the chat page
+2024-12-12 16:18:35 - User: egi2, Action: Viewed the chat
+2024-12-12 16:19:21 - User: egi2, Action: Visited the chat page
+2024-12-12 16:19:21 - User: egi2, Action: Viewed the chat
+2024-12-12 16:19:41 - User: egi2, Action: Sent a message
+2024-12-12 16:19:41 - User: egi2, Action: Viewed the chat
+2024-12-12 16:19:56 - User: egi2, Action: Sent a message
+2024-12-12 16:19:56 - User: egi2, Action: Viewed the chat
+2024-12-12 16:20:09 - User: egi2, Action: Sent a message
+2024-12-12 16:20:09 - User: egi2, Action: Viewed the chat
+2024-12-12 16:20:38 - User: egi2, Action: Visited the chat page
+2024-12-12 16:20:38 - User: egi2, Action: Viewed the chat
+2024-12-12 16:20:45 - User: egi2, Action: Sent a message
+2024-12-12 16:20:45 - User: egi2, Action: Viewed the chat
+2024-12-12 16:22:25 - User: egi2, Action: Visited the chat page
+2024-12-12 16:22:25 - User: egi2, Action: Viewed the chat
+2024-12-12 16:22:37 - User: egi2, Action: Sent a message
+2024-12-12 16:22:37 - User: egi2, Action: Viewed the chat
+2024-12-12 16:22:41 - User: egi2, Action: Sent a message
+2024-12-12 16:22:41 - User: egi2, Action: Viewed the chat
+2024-12-12 16:23:05 - User: egi2, Action: Sent a message
+2024-12-12 16:23:05 - User: egi2, Action: Viewed the chat
+2024-12-12 16:23:12 - User: egi2, Action: Sent a message
+2024-12-12 16:23:12 - User: egi2, Action: Viewed the chat
+2024-12-12 16:24:16 - User: egi2, Action: Sent a message
+2024-12-12 16:24:16 - User: egi2, Action: Viewed the chat
+2024-12-12 16:24:20 - User: egi2, Action: Sent a message
+2024-12-12 16:24:20 - User: egi2, Action: Viewed the chat
+2024-12-12 16:26:32 - User: egi2, Action: Sent a message
+2024-12-12 16:26:32 - User: egi2, Action: Viewed the chat
+2024-12-12 16:26:36 - User: egi2, Action: Viewed the chat
+2024-12-12 16:26:40 - User: egi2, Action: Viewed the chat
+2024-12-12 16:26:51 - User: egi2, Action: Logged out
+2024-12-12 16:26:59 - User: anonymous, Action: Visited the chat page
+2024-12-12 16:26:59 - User: anonymous, Action: Viewed the chat
+2024-12-12 16:27:03 - User: anonymous, Action: Viewed the chat
+2024-12-12 16:27:19 - User: anonymous, Action: Viewed the chat

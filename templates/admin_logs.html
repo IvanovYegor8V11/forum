@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+  <h2>Admin Panel - Logs</h2>
+  
+  <div class="header">
+    <a href="{{ url_for('admin_panel') }}">Back to Admin Panel</a>
+    <a href="{{ url_for('chat') }}">Go to Chat</a>
+  </div>
+
+  <h3>Filter Logs</h3>
+  <form method="GET" action="{{ url_for('admin_logs') }}" class="filter-form">
+    <div class="form-row">
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" value="{{ start_date or '' }}">
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" value="{{ end_date or '' }}">
+    </div>
+    <div class="form-row">
+      <button type="submit">Filter</button>
+    </div>
+  </form>
+
+
+
+  <h3>Download Logs</h3>
+  <div class="download-buttons">
+    <a href="{{ url_for('download_logs', format='txt', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as TXT</a>
+    <a href="{{ url_for('download_logs', format='json', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as JSON</a>
+    <a href="{{ url_for('download_logs', format='xml', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as XML</a>
+  </div>
+
+
+  {% if logs %}
+  <h3>Logs</h3>
+  <table class="logs-table">
+    <thead>
+      <tr>
+        <th>Date/Time</th>
+        <th>Username</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in logs %}
+        <tr>
+          <td>{{ log.date_time }}</td>
+          <td>{{ log.username }}</td>
+          <td>{{ log.action }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p class="message">No logs found for the selected period.</p>
+  {% endif %}
+</div>
+{% endblock %}

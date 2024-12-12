@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Admin Panel</h2>
+  <div class="header">
+    <p>Logged in as: <strong>{{ session.get('username') }}</strong></p>
+    <a href="{{ url_for('logout') }}" class="logout-button">Logout</a>
+  </div>
+
+  <div class="admin-links">
+    <ul>
+      <li><a href="{{ url_for('admin_messages') }}">Manage Messages</a></li>
+      <li><a href="{{ url_for('admin_logs') }}">View User Logs</a></li>
+    </ul>
+  </div>
+{% endblock %}

@@ -142,18 +142,61 @@ li.danger {
     background-color: #43a047;
 }
 
-/* Стили для сообщений */
-.message {
-    padding: 15px;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #fafafa;
+/* Для textarea */
+textarea {
+    width: 100%; /* Занимает всю доступную ширину */
+    box-sizing: border-box; /* Учитываем padding и border в размере */
+    word-wrap: break-word; /* Перенос длинных слов на следующую строку */
+    white-space: pre-wrap; /* Сохраняем все разрывы строк и пробелы */
+    padding: 10px; /* Отступы внутри текстового поля */
+    font-size: 14px; /* Размер шрифта */
+    border: 1px solid #ccc; /* Граница */
+    border-radius: 4px; /* Округление углов */
+    resize: vertical; /* Разрешаем изменение высоты */
 }
 
-.message strong {
-    font-weight: bold;
+textarea:focus {
+    border-color: #4CAF50; /* Цвет границы при фокусе */
+    outline: none; /* Убираем стандартную обводку */
 }
+
+/* Стили для сообщений */
+.messages {
+    margin-top: 20px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 10px; /* Общий отступ для всего сообщения */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.message-content {
+    margin: 0; /* Убираем внешние отступы */
+    padding-left: 20px; /* Равномерный отступ для всех строк */
+    white-space: pre-wrap; /* Сохраняем разрывы строк */
+    word-wrap: break-word; /* Перенос длинных слов на новую строку */
+    line-height: 1.4; /* Межстрочный интервал */
+    word-break: break-word; /* Для разделения длинных слов */
+    overflow-wrap: break-word; /* Поддержка переноса слов */
+}
+
+.message-user {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.message-timestamp {
+    font-size: 12px;
+    color: #777;
+    margin-top: 5px;
+}
+
+
 
 /* Стили для ссылки на редактирование и отмену */
 a.button-edit,
@@ -174,3 +217,111 @@ a.button-cancel {
 a.button-cancel:hover {
     background-color: #999;
 }
+
+
+/* Стили для таблицы логов */
+.logs-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.logs-table th, .logs-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.logs-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+    color: #333;
+}
+
+.logs-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.logs-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.logs-table td {
+    color: #555;
+}
+
+/* Стили для формы фильтрации */
+.filter-form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filter-form .form-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px; /* Отступ между строками */
+}
+
+.filter-form label {
+    font-weight: bold;
+    color: #333;
+}
+
+.filter-form input[type="date"] {
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 150px;
+    box-sizing: border-box;
+}
+
+.filter-form button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.filter-form button:hover {
+    background-color: #45a049;
+}
+
+
+/* Стили для кнопок скачивания */
+.download-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px; /* Расстояние между кнопками */
+    margin: 20px 0;
+}
+
+.download-buttons .btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #4CAF50;
+    border-radius: 5px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.download-buttons .btn:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.download-buttons .btn:active {
+    background-color: #3e8e41;
+    transform: scale(1);
+}
+

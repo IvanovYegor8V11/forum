@@ -1,9 +1,10 @@
-from flask import Flask, render_template, redirect, url_for, flash, session, request
+from flask import Flask, jsonify, make_response, render_template, redirect, url_for, flash, session, request
 from config import Config
 from forms import RegisterForm, LoginForm
 from models import db, User, Message
 import logging
 from datetime import datetime
+import xml.etree.ElementTree as ET
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -12,29 +13,21 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-# Настройка пользовательского логирования
 user_logger = logging.getLogger("user_actions")
 user_logger.setLevel(logging.INFO)
 user_handler = logging.FileHandler("user_actions.log")
 user_handler.setFormatter(logging.Formatter("%(asctime)s - %(message)s", datefmt="%Y-%m-%d %H:%M:%S"))
 user_logger.addHandler(user_handler)
 
-# Настройка серверного логирования (оставляем в терминале)
 server_logger = logging.getLogger('werkzeug')
-server_logger.setLevel(logging.INFO)  # Уровень логирования по умолчанию
-server_logger.addHandler(logging.StreamHandler())  # Направляем в терминал
+server_logger.setLevel(logging.INFO)
+server_logger.addHandler(logging.StreamHandler())
 
 def log_user_action(action):
-    """Логирует действия пользователя, кроме администратора."""
     username = session.get("username", "anonymous")
     if session.get("is_admin"):
         return
     user_logger.info(f"User: {username}, Action: {action}")
-
-
-@app.template_filter('nl2br')
-def nl2br_filter(text):
-    return text.replace('\n', '<br>')
 
 @app.route('/')
 def index():
@@ -54,25 +47,20 @@ def register():
             flash('Username already taken. Please choose a different one.', 'danger')
             return redirect(url_for('register'))
         
-        # Создаем нового пользователя
         user = User(username=form.username.data, password=form.password.data)
         db.session.add(user)
         db.session.commit()
         
-        # Логируем регистрацию
         log_user_action(f"Registered a new account: {form.username.data}")
         
-        # Автоматически логиним пользователя
         session['user_id'] = user.id
         session['username'] = user.username
-        session['is_admin'] = False  # Новый пользователь не администратор
+        session['is_admin'] = False
         
         flash('You have successfully registered and logged in!', 'success')
         return redirect(url_for('chat'))
     
     return render_template('register.html', form=form)
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -98,13 +86,15 @@ def login():
 def chat():
     user_logged_in = 'user_id' in session
 
+    # Количество сообщений для отображения по умолчанию
+    messages_limit = 10
+
     if request.method == 'POST' and user_logged_in and 'content' in request.form:
         content = request.form['content']
         
         if not content.strip():
             error_message = "Message cannot be empty."
-            
-            messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).all()
+            messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).limit(messages_limit).all()
             return render_template('chat.html', error_message=error_message, messages=messages, user_logged_in=user_logged_in)
 
         message = Message(content=content, user_id=session['user_id'], timestamp=datetime.now())
@@ -112,29 +102,36 @@ def chat():
         db.session.commit()
 
         log_user_action("Sent a message")
-    
+
     search_query = request.args.get('search')
-    
+
     if search_query:
         search_terms = search_query.split()
         filters = [Message.content.ilike(f'%{term}%') for term in search_terms]
-        messages = Message.query.filter(Message.visible.is_(True), *filters).order_by(Message.id.desc()).all()
+        messages = Message.query.filter(Message.visible.is_(True), *filters).order_by(Message.id.desc()).limit(messages_limit).all()
     else:
+        messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).limit(messages_limit).all()
+
+    show_all = 'show_all' in request.args  # Проверка, отображать ли все сообщения
+
+    if show_all:
         messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).all()
-    
+
     log_user_action("Viewed the chat")
     return render_template(
         'chat.html',
         messages=messages,
         search_query=search_query,
         user_logged_in=user_logged_in,
-        error_message=None
+        error_message=None,
+        show_all=show_all  # Передаем флаг в шаблон
     )
+
 
 @app.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
     if session.get('is_admin'):
-        return redirect(url_for('admin'))
+        return redirect(url_for('admin_panel'))
 
     if request.method == 'POST':
         username = request.form['username']
@@ -144,15 +141,24 @@ def admin_login():
             session['user_id'] = 1
             session['username'] = username
             session['is_admin'] = True
-            return redirect(url_for('admin'))
+            flash('Admin logged in successfully.', 'success')
+            return redirect(url_for('admin_panel'))
         else:
             flash('Invalid admin username or password.', 'danger')
-            return render_template('admin_login.html')
 
     return render_template('admin_login.html')
 
-@app.route('/admin', methods=['GET', 'POST'])
-def admin():
+
+@app.route('/admin-panel')
+def admin_panel():
+    if not session.get('is_admin'):
+        flash('Access denied.', 'danger')
+        return redirect(url_for('login'))
+    
+    return render_template('admin_panel.html')
+
+@app.route('/admin-messages', methods=['GET', 'POST'])
+def admin_messages():
     if not session.get('is_admin'):
         flash('Access denied.', 'danger')
         return redirect(url_for('login'))
@@ -177,10 +183,124 @@ def admin():
                     message.content = new_content
                     db.session.commit()
                     flash('Message updated.', 'success')
-            return redirect(url_for('admin'))
+            return redirect(url_for('admin_messages'))
     
     messages = Message.query.order_by(Message.id.desc()).all()
-    return render_template('admin.html', messages=messages)
+    return render_template('admin_messages.html', messages=messages)
+
+@app.route('/admin-logs', methods=['GET'])
+def admin_logs():
+    if not session.get('is_admin'):
+        flash('Access denied.', 'danger')
+        return redirect(url_for('login'))
+    
+    # Получаем параметры фильтрации
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    
+    logs = []
+    log_file = "user_actions.log"
+    
+    try:
+        with open(log_file, 'r') as file:
+            for line in file:
+                parts = line.strip().split(" - ", 1)
+                if len(parts) != 2:
+                    continue
+                
+                date_time, details = parts
+                if "User: " in details and ", Action: " in details:
+                    user_part = details.split(", Action: ")[0]
+                    action_part = details.split(", Action: ")[1]
+                    username = user_part.replace("User: ", "").strip()
+                    action = action_part.strip()
+                else:
+                    continue
+                
+                log_date = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+                
+                # Фильтрация по дате
+                if start_date and log_date < datetime.strptime(start_date, '%Y-%m-%d'):
+                    continue
+                if end_date and log_date > datetime.strptime(end_date, '%Y-%m-%d'):
+                    continue
+                
+                logs.append({"date_time": log_date, "username": username, "action": action})
+    
+    except FileNotFoundError:
+        flash('Log file not found.', 'danger')
+        return redirect(url_for('admin_panel'))
+    
+    logs = sorted(logs, key=lambda x: x['date_time'], reverse=True)
+    
+    return render_template('admin_logs.html', logs=logs)
+
+@app.route('/download-logs/<format>', methods=['GET'])
+def download_logs(format):
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    
+    logs = []
+    log_file = "user_actions.log"
+    
+    try:
+        with open(log_file, 'r') as file:
+            for line in file:
+                parts = line.strip().split(" - ", 1)
+                if len(parts) != 2:
+                    continue
+                
+                date_time, details = parts
+                if "User: " in details and ", Action: " in details:
+                    user_part = details.split(", Action: ")[0]
+                    action_part = details.split(", Action: ")[1]
+                    username = user_part.replace("User: ", "").strip()
+                    action = action_part.strip()
+                else:
+                    continue
+                
+                log_date = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
+                
+                # Фильтрация по дате
+                if start_date and log_date < datetime.strptime(start_date, '%Y-%m-%d'):
+                    continue
+                if end_date and log_date > datetime.strptime(end_date, '%Y-%m-%d'):
+                    continue
+                
+                logs.append({"date_time": date_time, "username": username, "action": action})
+    
+    except FileNotFoundError:
+        return "Log file not found.", 404
+    
+    if format == 'txt':
+        content = "\n".join([f"{log['date_time']} - {log['username']} - {log['action']}" for log in logs])
+        response = make_response(content)
+        response.headers['Content-Type'] = 'text/plain'
+        response.headers['Content-Disposition'] = 'attachment; filename=logs.txt'
+        return response
+    
+    elif format == 'json':
+        response = make_response(jsonify(logs))
+        response.headers['Content-Type'] = 'application/json'
+        response.headers['Content-Disposition'] = 'attachment; filename=logs.json'
+        return response
+    
+    elif format == 'xml':
+        root = ET.Element("logs")
+        for log in logs:
+            log_entry = ET.SubElement(root, "log")
+            ET.SubElement(log_entry, "date_time").text = log["date_time"]
+            ET.SubElement(log_entry, "username").text = log["username"]
+            ET.SubElement(log_entry, "action").text = log["action"]
+        
+        xml_data = ET.tostring(root, encoding="unicode")
+        response = make_response(xml_data)
+        response.headers['Content-Type'] = 'application/xml'
+        response.headers['Content-Disposition'] = 'attachment; filename=logs.xml'
+        return response
+    
+    else:
+        return "Invalid format requested.", 400
 
 @app.route('/logout')
 def logout():
