@@ -21,17 +21,22 @@
   {% endif %}
 
   {% if user_logged_in %}
-    <form method="GET" action="{{ url_for('chat') }}">
-        <input type="text" name="search" placeholder="Search messages" value="{{ search_query or '' }}">
-        <input type="submit" value="Search">
-    </form>
+    <div class="search-section">
+      <form method="GET" action="{{ url_for('chat') }}">
+          <input type="text" name="search" placeholder="Search messages" value="{{ search_query or '' }}">
+          <input type="submit" value="Search">
+      </form>
+    </div>
+    <br>
   {% endif %}
 
   {% if user_logged_in %}
-    <form method="POST">
-        <textarea name="content" rows="3" cols="40" placeholder="Write a message..."></textarea>
-        <input type="submit" value="Send">
-    </form>
+    <div class="send-message-section">
+      <form method="POST">
+          <textarea name="content" rows="3" cols="40" placeholder="Write a message..."></textarea>
+          <input type="submit" value="Send">
+      </form>
+    </div>
   {% else %}
     <p><em>Please log in to post a message.</em></p>
   {% endif %}
@@ -57,7 +62,6 @@
     {% endif %}
   </div>
 
-  <!-- Кнопка "Показать все сообщения" -->
   {% if not show_all %}
     <div class="show-all-button">
       <a href="{{ url_for('chat', show_all=True) }}" class="btn">Show All Messages</a>

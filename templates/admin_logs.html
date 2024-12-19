@@ -21,15 +21,12 @@
     </div>
   </form>
 
-
-
   <h3>Download Logs</h3>
   <div class="download-buttons">
     <a href="{{ url_for('download_logs', format='txt', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as TXT</a>
     <a href="{{ url_for('download_logs', format='json', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as JSON</a>
     <a href="{{ url_for('download_logs', format='xml', start_date=request.args.get('start_date'), end_date=request.args.get('end_date')) }}" class="btn">Download as XML</a>
   </div>
-
 
   {% if logs %}
   <h3>Logs</h3>
@@ -51,6 +48,17 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <div class="pagination">
+    {% if page > 1 %}
+      <a href="{{ url_for('admin_logs', page=page - 1, start_date=start_date, end_date=end_date) }}" class="btn">Previous</a>
+    {% endif %}
+    <span>Page {{ page }} of {{ total_pages }}</span>
+    {% if page < total_pages %}
+      <a href="{{ url_for('admin_logs', page=page + 1, start_date=start_date, end_date=end_date) }}" class="btn">Next</a>
+    {% endif %}
+  </div>
+
   {% else %}
     <p class="message">No logs found for the selected period.</p>
   {% endif %}

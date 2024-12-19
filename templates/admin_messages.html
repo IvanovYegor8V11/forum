@@ -18,7 +18,7 @@
       {% if message.id == (request.args.get('edit_id') | int) %}
         <form method="POST" action="{{ url_for('admin_messages') }}">
           <input type="hidden" name="message_id" value="{{ message.id }}">
-          <textarea name="new_content">{{ message.content }}</textarea>
+          <textarea name="new_content" rows="5" cols="60">{{ message.content }}</textarea>
           <button type="submit" name="action" value="save_edit">Save</button>
           <a href="{{ url_for('admin_messages') }}">Cancel</a>
         </form>

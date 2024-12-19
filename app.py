@@ -5,6 +5,7 @@ from models import db, User, Message
 import logging
 from datetime import datetime
 import xml.etree.ElementTree as ET
+from xml.dom.minidom import parseString
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -86,7 +87,6 @@ def login():
 def chat():
     user_logged_in = 'user_id' in session
 
-    # Количество сообщений для отображения по умолчанию
     messages_limit = 10
 
     if request.method == 'POST' and user_logged_in and 'content' in request.form:
@@ -109,10 +109,11 @@ def chat():
         search_terms = search_query.split()
         filters = [Message.content.ilike(f'%{term}%') for term in search_terms]
         messages = Message.query.filter(Message.visible.is_(True), *filters).order_by(Message.id.desc()).limit(messages_limit).all()
+        log_user_action("Searched the message")
     else:
         messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).limit(messages_limit).all()
 
-    show_all = 'show_all' in request.args  # Проверка, отображать ли все сообщения
+    show_all = 'show_all' in request.args
 
     if show_all:
         messages = Message.query.filter_by(visible=True).order_by(Message.id.desc()).all()
@@ -124,9 +125,8 @@ def chat():
         search_query=search_query,
         user_logged_in=user_logged_in,
         error_message=None,
-        show_all=show_all  # Передаем флаг в шаблон
+        show_all=show_all
     )
-
 
 @app.route('/admin-login', methods=['GET', 'POST'])
 def admin_login():
@@ -147,7 +147,6 @@ def admin_login():
             flash('Invalid admin username or password.', 'danger')
 
     return render_template('admin_login.html')
-
 
 @app.route('/admin-panel')
 def admin_panel():
@@ -194,13 +193,15 @@ def admin_logs():
         flash('Access denied.', 'danger')
         return redirect(url_for('login'))
     
-    # Получаем параметры фильтрации
+    # Параметры фильтрации
     start_date = request.args.get('start_date')
     end_date = request.args.get('end_date')
-    
+    page = int(request.args.get('page', 1))  # Номер страницы
+    logs_per_page = 10  # Количество логов на страницу
+
     logs = []
     log_file = "user_actions.log"
-    
+
     try:
         with open(log_file, 'r') as file:
             for line in file:
@@ -225,15 +226,30 @@ def admin_logs():
                 if end_date and log_date > datetime.strptime(end_date, '%Y-%m-%d'):
                     continue
                 
-                logs.append({"date_time": log_date, "username": username, "action": action})
+                logs.append({"date_time": date_time, "username": username, "action": action})
     
     except FileNotFoundError:
         flash('Log file not found.', 'danger')
         return redirect(url_for('admin_panel'))
-    
+
     logs = sorted(logs, key=lambda x: x['date_time'], reverse=True)
-    
-    return render_template('admin_logs.html', logs=logs)
+
+    # Пагинация
+    total_logs = len(logs)
+    total_pages = (total_logs + logs_per_page - 1) // logs_per_page
+    start_index = (page - 1) * logs_per_page
+    end_index = start_index + logs_per_page
+    logs_paginated = logs[start_index:end_index]
+
+    return render_template(
+        'admin_logs.html',
+        logs=logs_paginated,
+        page=page,
+        total_pages=total_pages,
+        start_date=start_date,
+        end_date=end_date
+    )
+
 
 @app.route('/download-logs/<format>', methods=['GET'])
 def download_logs(format):
@@ -261,7 +277,6 @@ def download_logs(format):
                 
                 log_date = datetime.strptime(date_time, '%Y-%m-%d %H:%M:%S')
                 
-                # Фильтрация по дате
                 if start_date and log_date < datetime.strptime(start_date, '%Y-%m-%d'):
                     continue
                 if end_date and log_date > datetime.strptime(end_date, '%Y-%m-%d'):
@@ -293,8 +308,10 @@ def download_logs(format):
             ET.SubElement(log_entry, "username").text = log["username"]
             ET.SubElement(log_entry, "action").text = log["action"]
         
-        xml_data = ET.tostring(root, encoding="unicode")
-        response = make_response(xml_data)
+        xml_str = ET.tostring(root, encoding="unicode")
+        pretty_xml = parseString(xml_str).toprettyxml(indent="  ")
+        
+        response = make_response(pretty_xml)
         response.headers['Content-Type'] = 'application/xml'
         response.headers['Content-Disposition'] = 'attachment; filename=logs.xml'
         return response
